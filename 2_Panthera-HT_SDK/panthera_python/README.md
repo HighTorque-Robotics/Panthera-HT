@@ -337,6 +337,49 @@ panthera_python/
 
 ## 故障排除
 
+### 执行Interface_cpp_setup.sh脚本时遇到了cmake: 未找到命令的错误
+```更新软件源（确保能获取最新的CMake包）
+sudo apt update
+
+# 安装CMake
+sudo apt install cmake -y
+```
+### 执行编译脚本时遇到了GLib2库缺失的错误，CMake 找不到glib-2.0相关依赖
+``` 更新软件源，确保能获取最新依赖包
+sudo apt update
+
+# 安装glib-2.0的开发包（包含头文件和库文件）
+sudo apt install libglib2.0-dev -y
+```
+### 遇到CMake 找不到yaml-cpp库的错误
+```更新软件源，确保获取最新包
+sudo apt update
+
+# 安装yaml-cpp的开发版（包含头文件、库文件和CMake配置文件）
+sudo apt install libyaml-cpp-dev -y
+```
+
+### CMake 提示libserialport not found的错误，并且明确提示需要安装libserialport-dev包
+```更新软件源，确保获取最新包
+sudo apt update
+
+# 安装libserialport开发包（错误提示中明确要求的包）
+sudo apt install libserialport-dev -y
+```
+### 解决pthera_python/scripts$ python 0_robot_get_state.py 导入hightorque_robot_py时出错: No module named 'hightorque_robot._hightorque_robot'请确保您已使用CMake构建了Python绑定
+```方法：依次运行下面指令
+cd ~/下载/Panthera-HT-main/2_Panthera-HT_SDK/thera_python   # 调整路径
+mkdir build && cd build
+
+cmake .. \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DPYTHON_EXECUTABLE=$(which python) \
+  -DPython3_EXECUTABLE=$(which python)
+
+make -j$(nproc)
+make install   # 或 sudo make install
+```
+
 ### 找不到 hightorque_robot 模块
 确保已安装Python包:
 ```bash
